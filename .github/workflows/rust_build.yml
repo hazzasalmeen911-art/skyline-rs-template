@@ -14,14 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Pinned Nightly Rust
-        uses: dtolnay/rust-toolchain@v1
-        with:
-          toolchain: nightly-2023-05-01
-          targets: aarch64-skyline-switch
+      - name: Install Rustup and Nightly
+        run: |
+          rustup toolchain install nightly-2023-10-01
+          rustup default nightly-2023-10-01
 
       - name: Install cargo-skyline
-        run: cargo install cargo-skyline
+        run: cargo install cargo-skyline --locked || true
 
       - name: Build release NRO
         run: cargo skyline build --release

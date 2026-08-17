@@ -9,23 +9,24 @@ on:
 
 jobs:
   plugin:
-    env:
-      PLUGIN_NAME: skyline_rs_template
     runs-on: ubuntu-latest
-    container:
-      image: jugeeya/cargo-skyline:2.1.0
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Rust Nightly
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          targets: aarch64-skyline-switch
+
+      - name: Install cargo-skyline
+        run: cargo install cargo-skyline
+
       - name: Build release NRO
-        run: |
-          PATH=$PATH:/root/.cargo/bin /root/.cargo/bin/cargo-skyline skyline build --release
-        env:
-          HOME: /root
+        run: cargo skyline build --release
 
       - name: Upload plugin artifact
         uses: actions/upload-artifact@v4
         with:
           name: plugin
-          path: target/aarch64-skyline-switch/release/lib${{ env.PLUGIN_NAME }}.nro
+          path: target/aarch64-skyline-switch/release/*.nro

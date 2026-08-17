@@ -14,13 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Rustup and Nightly
+      - name: Install Rustup and Target
         run: |
-          rustup toolchain install nightly-2023-10-01
-          rustup default nightly-2023-10-01
+          rustup set profile minimal
+          rustup toolchain install nightly-2024-02-01
+          rustup default nightly-2024-02-01
+          rustup target add aarch64-skyline-switch --toolchain nightly-2024-02-01
 
       - name: Install cargo-skyline
-        run: cargo install cargo-skyline --locked || true
+        run: cargo install cargo-skyline --locked
 
       - name: Build release NRO
         run: cargo skyline build --release

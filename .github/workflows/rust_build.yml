@@ -14,9 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Rust Nightly
+      - name: Install Pinned Nightly Rust
         uses: dtolnay/rust-toolchain@nightly
         with:
+          toolchain: nightly-2024-05-01
           targets: aarch64-skyline-switch
 
       - name: Install cargo-skyline
